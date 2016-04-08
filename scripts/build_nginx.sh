@@ -38,7 +38,7 @@ echo "Downloading $headers_more_nginx_module_url"
 (cd nginx-${NGINX_VERSION} && curl -L $headers_more_nginx_module_url | tar xvz )
 
 echo "Downloading $lua_module_url"
-(cd nginx-${NGINX_VERSION} && curl -L $lua_moduule_url | tar xvz )
+(cd nginx-${NGINX_VERSION} && curl -L $lua_module_url | tar xvz )
 
 (
 	cd nginx-${NGINX_VERSION}
