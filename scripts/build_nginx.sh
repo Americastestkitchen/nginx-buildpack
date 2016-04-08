@@ -35,10 +35,10 @@ echo "Downloading $pcre_tarball_url"
 (cd nginx-${NGINX_VERSION} && curl -L $pcre_tarball_url | tar xvj )
 
 echo "Downloading $headers_more_nginx_module_url"
-(cd nginx-${NGINX_VERSION} && curl -L $headers_m${LUA_MODULE_VERSION} )
+(cd nginx-${NGINX_VERSION} && curl -L $headers_more_nginx_module_url | tar xvz )
 
 echo "Downloading $lua_module_url"
-(cd nginx-${LUA_MODULE_VERSION} && curl -L $lua_moduule_url | tar xvz )
+(cd nginx-${NGINX_VERSION} && curl -L $lua_moduule_url | tar xvz )
 
 (
 	cd nginx-${NGINX_VERSION}
@@ -46,7 +46,7 @@ echo "Downloading $lua_module_url"
 		--with-pcre=pcre-${PCRE_VERSION} \
 		--prefix=/tmp/nginx \
 		--add-module=/${temp_dir}/nginx-${NGINX_VERSION}/headers-more-nginx-module-${HEADERS_MORE_VERSION} \
-        --add-module=/${temp_dir}/nginx-${LUA_MODULE_VERSION}/lua-nginx-module-${LUA_MODULE_VERSION}
+        --add-module=/${temp_dir}/nginx-${NGINX_VERSION}/lua-nginx-module-${LUA_MODULE_VERSION}
 	make install
 )
 
