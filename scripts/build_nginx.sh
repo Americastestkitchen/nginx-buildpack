@@ -42,7 +42,7 @@ echo "Downloading $lua_module_url"
 
 (
 	cd nginx-${NGINX_VERSION}
-	./configure \
+	echo ./configure \
 		--with-pcre=pcre-${PCRE_VERSION} \
 		--prefix=/tmp/nginx \
 		--add-module=/${temp_dir}/nginx-${NGINX_VERSION}/headers-more-nginx-module-${HEADERS_MORE_VERSION} \
