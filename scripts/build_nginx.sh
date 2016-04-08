@@ -12,10 +12,12 @@
 NGINX_VERSION=${NGINX_VERSION-1.9.14}
 PCRE_VERSION=${PCRE_VERSION-8.38}
 HEADERS_MORE_VERSION=${HEADERS_MORE_VERSION-0.29}
+LUA_MODULE_VERSION=${LUA_MODULE_VERSION-0.10.2}
 
 nginx_tarball_url=http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz
 pcre_tarball_url=http://downloads.sourceforge.net/project/pcre/pcre/${PCRE_VERSION}/pcre-${PCRE_VERSION}.tar.bz2
 headers_more_nginx_module_url=https://github.com/agentzh/headers-more-nginx-module/archive/v${HEADERS_MORE_VERSION}.tar.gz
+lua_module_url=https://github.com/openresty/lua-nginx-module/archive/v${LUA_MODULE_VERSION}.tar.gz
 
 temp_dir=$(mktemp -d /tmp/nginx.XXXXXXXXXX)
 
@@ -33,14 +35,18 @@ echo "Downloading $pcre_tarball_url"
 (cd nginx-${NGINX_VERSION} && curl -L $pcre_tarball_url | tar xvj )
 
 echo "Downloading $headers_more_nginx_module_url"
-(cd nginx-${NGINX_VERSION} && curl -L $headers_more_nginx_module_url | tar xvz )
+(cd nginx-${NGINX_VERSION} && curl -L $headers_m${LUA_MODULE_VERSION} 
+
+echo "Downloading $lua_module_url"
+(cd nginx-${LUA_MODULE_VERSION} && curl -L $lua_moduule_url | tar xvz )
 
 (
 	cd nginx-${NGINX_VERSION}
 	./configure \
 		--with-pcre=pcre-${PCRE_VERSION} \
 		--prefix=/tmp/nginx \
-		--add-module=/${temp_dir}/nginx-${NGINX_VERSION}/headers-more-nginx-module-${HEADERS_MORE_VERSION}
+		--add-module=/${temp_dir}/nginx-${NGINX_VERSION}/headers-more-nginx-module-${HEADERS_MORE_VERSION}\
+                --add-module=/${temp_dir}/nginx-nginx-${LUA_MODULE_VERSION}
 	make install
 )
 
