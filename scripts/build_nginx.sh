@@ -46,7 +46,7 @@ echo "Downloading $lua_module_url"
 		--with-pcre=pcre-${PCRE_VERSION} \
 		--prefix=/tmp/nginx \
 		--add-module=/${temp_dir}/nginx-${NGINX_VERSION}/headers-more-nginx-module-${HEADERS_MORE_VERSION} \
-                --add-module=/${temp_dir}/nginx-nginx-${LUA_MODULE_VERSION}
+                --add-module=/${temp_dir}/nginx-${LUA_MODULE_VERSION}/lua-nginx-module-${LUA_MODULE_VERSION}
 	make install
 )
 
