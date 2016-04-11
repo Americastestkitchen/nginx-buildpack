@@ -24,8 +24,8 @@ lua_src=http://www.lua.org/ftp/lua-${LUA_SRC_VERSION}.tar.gz
 temp_dir=$(mktemp -d /tmp/nginx.XXXXXXXXXX)
 
 #define where lua libs are
-export LUA_LIB=/${temp_dir}/nginx-${NGINX_VERSION}/lua-${LUA_SRC_VERSION}/lib
-export LUA_INC=/${temp_dir}/nginx-${NGINX_VERSION}/lua-${LUA_SRC_VERSION}/include
+export LUA_LIB=/${temp_dir}/nginx-${NGINX_VERSION}/lua-${LUA_SRC_VERSION}/src
+export LUA_INC=/${temp_dir}/nginx-${NGINX_VERSION}/lua-${LUA_SRC_VERSION}/src
 
 echo "Serving files from /tmp on $PORT"
 cd /tmp
