@@ -17,6 +17,10 @@ do
         esac
 done
 
+#Initialize cache directory.
+mkdir -p cache
+echo 'buildpack=nginx at=cache-initialized'
+
 #Initialize log directory.
 mkdir -p logs/nginx
 touch logs/nginx/access.log logs/nginx/error.log
