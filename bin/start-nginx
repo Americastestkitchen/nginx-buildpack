@@ -4,9 +4,17 @@ psmgr=/tmp/nginx-buildpack-wait
 rm -f $psmgr
 mkfifo $psmgr
 
-#Evaluate config to get $PORT
-erb config/nginx.conf.erb > config/nginx.conf
-cat config/nginx.conf
+#Evaluate config to get $PORT and other variables that may be set and used.
+cd config
+shopt -s nullglob
+for conf_file in *.erb
+do
+  target=${conf_file%.*}
+  erb $conf_file > $target
+done
+
+#switch back to where we started
+cd ..
 
 n=1
 while getopts :f option ${@:1:2}
