@@ -9,11 +9,11 @@
 # Once the dyno has is 'up' you can open your browser and navigate
 # this dyno's directory structure to download the nginx binary.
 
-NGINX_VERSION=${NGINX_VERSION-1.9.14}
+NGINX_VERSION=${NGINX_VERSION-1.13.6}
 PCRE_VERSION=${PCRE_VERSION-8.38}
 HEADERS_MORE_VERSION=${HEADERS_MORE_VERSION-0.29}
-LUA_MODULE_VERSION=${LUA_MODULE_VERSION-0.10.2}
-LUA_SRC_VERSION=${LUA_SRC_VERSION-5.1.4}
+LUA_MODULE_VERSION=${LUA_MODULE_VERSION-0.10.13}
+LUA_SRC_VERSION=${LUA_SRC_VERSION-5.1}
 NGX_DEVEL_KIT_VERSION=${NGX_DEVEL_KIT_VERSION-0.2.19}
 
 nginx_tarball_url=http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz
@@ -26,8 +26,8 @@ ngx_devel_kit_module_url=https://github.com/simpl/ngx_devel_kit/archive/v${NGX_D
 temp_dir=$(mktemp -d /tmp/nginx.XXXXXXXXXX)
 
 #define where lua libs are
-export LUA_LIB=/${temp_dir}/nginx-${NGINX_VERSION}/lua-${LUA_SRC_VERSION}/src
-export LUA_INC=/${temp_dir}/nginx-${NGINX_VERSION}/lua-${LUA_SRC_VERSION}/src
+export LUA_LIB=${temp_dir}/nginx-${NGINX_VERSION}/lua-${LUA_SRC_VERSION}/src
+export LUA_INC=${temp_dir}/nginx-${NGINX_VERSION}/lua-${LUA_SRC_VERSION}/src
 
 echo "Serving files from /tmp on $PORT"
 cd /tmp
@@ -50,31 +50,31 @@ echo "Downloading $lua_module_url"
 
 echo "Downloading $ngx_devel_kit_module_url"
 (cd nginx-${NGINX_VERSION} && curl -L $ngx_devel_kit_module_url | tar xvz )
-
 echo "Downloading and building $lua_src"
 (
-	cd nginx-${NGINX_VERSION} && curl -L $lua_src | tar xvz
-	cd /${temp_dir}/nginx-${NGINX_VERSION}/lua-${LUA_SRC_VERSION}
-	make linux
+  cd nginx-${NGINX_VERSION} && curl -L $lua_src | tar xvz
+  cd /${temp_dir}/nginx-${NGINX_VERSION}/lua-${LUA_SRC_VERSION}
+  make linux
 )
 
 echo "Building Nginx ${NGINX_VERSION}"
 (
-	cd nginx-${NGINX_VERSION}
-	./configure \
-		--with-pcre=pcre-${PCRE_VERSION} \
-		--with-http_ssl_module \
-		--with-stream_ssl_module \
-		--prefix=/tmp/nginx \
-		--add-module=/${temp_dir}/nginx-${NGINX_VERSION}/headers-more-nginx-module-${HEADERS_MORE_VERSION} \
-		--add-module=/${temp_dir}/nginx-${NGINX_VERSION}/ngx_devel_kit-${NGX_DEVEL_KIT_VERSION} \
-		--add-module=/${temp_dir}/nginx-${NGINX_VERSION}/lua-nginx-module-${LUA_MODULE_VERSION}
-	pwd	
-	make install
+  cd nginx-${NGINX_VERSION}
+  ./configure \
+    --with-pcre=pcre-${PCRE_VERSION} \
+    --with-http_ssl_module \
+    --with-stream_ssl_module \
+    --with-http_geoip_module \
+    --prefix=/tmp/nginx \
+    --add-module=/${temp_dir}/nginx-${NGINX_VERSION}/headers-more-nginx-module-${HEADERS_MORE_VERSION} \
+    --add-module=/${temp_dir}/nginx-${NGINX_VERSION}/ngx_devel_kit-${NGX_DEVEL_KIT_VERSION} \
+    --add-module=/${temp_dir}/nginx-${NGINX_VERSION}/lua-nginx-module-${LUA_MODULE_VERSION}
+  pwd
+  make install
 )
 
 while true
 do
-	sleep 1
-	echo "."
+  sleep 10
+  echo "."
 done
